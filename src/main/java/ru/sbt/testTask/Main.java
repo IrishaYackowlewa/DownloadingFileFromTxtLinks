@@ -22,6 +22,8 @@ public class Main {
                         "Путь не найден", "stop", reader);
 
                 if (!(path.equals("stop"))) {
+                    System.out.println("Пожалуйста, подождите. Происходит загрузка файлов.");
+                    
                     ExecutionManager executionManager = new ExecutionManagerImpl();
                     ResultsThreads serviceThreadPool =
                             executionManager.execute(fileName, path, BYTES_PER_SECOND, COUNT_THREADS);
