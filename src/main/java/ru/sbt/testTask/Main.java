@@ -6,21 +6,21 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Main {
-    private static Logger log = Logger.getLogger(Main.class.getName());
+    static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         final int COUNT_THREADS = 3;
         int BYTES_PER_SECOND = 500 * 1024;
+        String fileName = "";
+        String path = "";
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("Введите полный путь и название файла для обработки(Пример: D:/files/file.txt): ");
-            String fileName = reader.readLine();
+            fileName = reader.readLine();
             System.out.println("Введите полный путь по которому надо сохранять файлы(Пример: D:/files/):");
-            String path = reader.readLine();
+            path = reader.readLine();
 
             if (!Files.exists(Paths.get(path))) {
                 throw new InvalidPathException(path, "path is not correct");
@@ -37,9 +37,9 @@ public class Main {
             System.out.println("Корректные ссылки " + serviceThreadPool.getSuccessTasks());
 
         } catch (IOException e) {
-            log.log(Level.WARNING,"Error main file links", e);
+            logger.error("Error main file of links = {}", fileName, e);
         } catch (InvalidPathException e) {
-            log.log(Level.WARNING,"Path is not correct", e);
+            logger.error("Path is not correct = {}", path, e);
         }
     }
 }

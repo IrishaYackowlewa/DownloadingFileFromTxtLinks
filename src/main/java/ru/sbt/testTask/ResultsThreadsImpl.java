@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ResultsThreadsImpl implements ResultsThreads {
-    private static Logger log = Logger.getLogger(ResultsThreadsImpl.class.getName());
+    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ResultsThreadsImpl.class);
 
     private List<Future<Boolean>> listFutures;
     private ArrayList<String> links;
@@ -34,20 +32,21 @@ public class ResultsThreadsImpl implements ResultsThreads {
         for (int i = 0; i < links.size(); i++) {
             try {
                 if (listFutures.get(i).get()) {
-                    log.log(Level.INFO, "File downloaded by " + links.get(i));
+                    logger.info("File downloaded by  {}", links.get(i));
                     successTasks.add(links.get(i));
                     this.completedTaskCount++;
                 }
             } catch (CancellationException e) {
-                log.log(Level.WARNING,"File download canceled " + links.get(i), e);
+                logger.warn("File download canceled {}", links.get(i), e);
                 this.interruptedTaskCount++;
                 this.failedTasks.add(links.get(i));
             } catch (InterruptedException e) {
+                logger.warn("Thread interrupted by {}", links.get(i), e);
                 Thread.currentThread().interrupt();
                 this.interruptedTaskCount++;
                 this.failedTasks.add(links.get(i));
             } catch (ExecutionException e) {
-                log.log(Level.WARNING,"File did not download " + links.get(i), e);
+                logger.warn("File did not download {}", links.get(i), e);
                 this.failedTaskCount++;
                 this.failedTasks.add(links.get(i));
             }
