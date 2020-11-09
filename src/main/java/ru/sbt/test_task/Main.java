@@ -1,4 +1,4 @@
-package ru.sbt.testTask;
+package ru.sbt.test_task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,15 +22,25 @@ public class Main {
                         "Путь не найден", "stop", reader);
 
                 if (!(path.equals("stop"))) {
-                    ExecutionManager executionManager = new ExecutionManagerImpl();
-                    ResultsThreads serviceThreadPool =
-                            executionManager.execute(fileName, path, BYTES_PER_SECOND, COUNT_THREADS);
+                    System.out.println("Пожалуйста, подождите. Происходит загрузка файлов.");
+
+                    ResultsThreads serviceThreadPool = new ExecutionManagerImpl.Builder(fileName, path)
+                            .limitSpeedBytesSecond(BYTES_PER_SECOND)
+                            .countThread(COUNT_THREADS)
+                            .buidl()
+                            .execute();
 
                     System.out.println("Колличество загруженных файлов " + serviceThreadPool.getCompletedTaskCount());
                     System.out.println("Колличество ошибок при загрузке " + serviceThreadPool.getFailedTaskCount());
                     System.out.println("Колличество прерваных загрузок " + serviceThreadPool.getInterruptedTaskCount());
-                    System.out.println("Ссылки, по которым не были загружены файлы " + serviceThreadPool.getFailedTasks());
-                    System.out.println("Корректные ссылки " + serviceThreadPool.getSuccessTasks());
+                    System.out.println("Ссылки, по которым не были загружены файлы ");
+                    for(String link: serviceThreadPool.getFailedTasks()) {
+                        System.out.println(link);
+                    }
+                    System.out.println("Корректные ссылки ");
+                    for(String link: serviceThreadPool.getSuccessTasks()) {
+                        System.out.println(link);
+                    }
                 }
             }
         } catch (IOException e) {

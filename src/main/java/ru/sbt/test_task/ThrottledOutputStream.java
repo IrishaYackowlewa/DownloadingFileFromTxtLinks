@@ -1,4 +1,4 @@
-package ru.sbt.testTask;
+package ru.sbt.test_task;
 
 import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;

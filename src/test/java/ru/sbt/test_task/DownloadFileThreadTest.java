@@ -1,4 +1,4 @@
-package ru.sbt.testTask;
+package ru.sbt.test_task;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

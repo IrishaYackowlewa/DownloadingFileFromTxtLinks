@@ -1,4 +1,4 @@
-package ru.sbt.testTask;
+package ru.sbt.test_task;
 
 import java.io.IOException;
 import java.util.ArrayList;

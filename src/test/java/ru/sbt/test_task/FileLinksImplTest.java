@@ -1,4 +1,4 @@
-package ru.sbt.testTask;
+package ru.sbt.test_task;
 
 import org.junit.*;
 import org.junit.rules.ExpectedException;

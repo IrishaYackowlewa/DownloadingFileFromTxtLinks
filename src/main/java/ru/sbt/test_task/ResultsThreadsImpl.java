@@ -1,4 +1,7 @@
-package ru.sbt.testTask;
+package ru.sbt.test_task;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class ResultsThreadsImpl implements ResultsThreads {
-    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ResultsThreadsImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(ResultsThreadsImpl.class);
 
     private List<Future<Boolean>> listFutures;
     private ArrayList<String> links;
@@ -28,6 +31,7 @@ public class ResultsThreadsImpl implements ResultsThreads {
         getResults();
     }
 
+    //@PostConstruct
     private void getResults() {
         for (int i = 0; i < links.size(); i++) {
             try {

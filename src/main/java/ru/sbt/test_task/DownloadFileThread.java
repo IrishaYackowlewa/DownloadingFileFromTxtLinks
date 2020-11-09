@@ -1,4 +1,4 @@
-package ru.sbt.testTask;
+package ru.sbt.test_task;
 
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
@@ -28,11 +28,10 @@ public class DownloadFileThread implements Callable<Boolean> {
              OutputStream out = new ThrottledOutputStream(
                      new FileOutputStream(directoryPath + generateFilename()
                              + getFileExtension(url)), limitBytesSecond)
-             // TODO: продумать реализацию через StringBuild?
         ) {
-            byte data[] = new byte[1024];
+            byte data[] = new byte[8 * 1024];
             int count;
-            while((count = in.read(data,0,1024)) != -1) {
+            while((count = in.read(data,0, data.length)) != -1) {
                 out.write(data, 0, count);
             }
         }
